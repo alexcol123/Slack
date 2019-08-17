@@ -12,7 +12,6 @@ import {
   Icon
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { create } from 'domain';
 
 class Register extends React.Component {
   state = {
