@@ -1,20 +1,17 @@
-
-
-
-import React from "react";
-import firebase from "../../firebase";
-import { connect } from "react-redux";
-import { setCurrentChannel } from "../../actions";
-import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
+import React from 'react';
+import firebase from '../../firebase';
+import { connect } from 'react-redux';
+import { setCurrentChannel } from '../../actions';
+import { Menu, Icon, Modal, Form, Input, Button } from 'semantic-ui-react';
 
 class Channels extends React.Component {
   state = {
-    activeChannel: "",
+    activeChannel: '',
     user: this.props.currentUser,
     channels: [],
-    channelName: "",
-    channelDetails: "",
-    channelsRef: firebase.database().ref("channels"),
+    channelName: '',
+    channelDetails: '',
+    channelsRef: firebase.database().ref('channels'),
     modal: false,
     firstLoad: true
   };
@@ -23,12 +20,20 @@ class Channels extends React.Component {
     this.addListeners();
   }
 
+  componentWillUount() {
+    this.removeListeners();
+  }
+
   addListeners = () => {
     let loadedChannels = [];
-    this.state.channelsRef.on("child_added", snap => {
+    this.state.channelsRef.on('child_added', snap => {
       loadedChannels.push(snap.val());
       this.setState({ channels: loadedChannels }, () => this.setFirstChannel());
     });
+  };
+
+  removeListeners = () => {
+    this.state.channelsRef.off();
   };
 
   setFirstChannel = () => {
@@ -59,9 +64,9 @@ class Channels extends React.Component {
       .child(key)
       .update(newChannel)
       .then(() => {
-        this.setState({ channelName: "", channelDetails: "" });
+        this.setState({ channelName: '', channelDetails: '' });
         this.closeModal();
-        console.log("channel added");
+        console.log('channel added');
       })
       .catch(err => {
         console.error(err);
@@ -114,11 +119,11 @@ class Channels extends React.Component {
 
     return (
       <React.Fragment>
-        <Menu.Menu style={{ paddingBottom: "2em" }}>
+        <Menu.Menu style={{ paddingBottom: '2em' }}>
           <Menu.Item>
             <span>
               <Icon name="exchange" /> CHANNELS
-            </span>{" "}
+            </span>{' '}
             ({channels.length}) <Icon name="add" onClick={this.openModal} />
           </Menu.Item>
           {this.displayChannels(channels)}
@@ -167,4 +172,3 @@ export default connect(
   null,
   { setCurrentChannel }
 )(Channels);
-
