@@ -56,7 +56,7 @@ class MessageForm extends React.Component {
   };
 
   render() {
-    console.log(this.state);
+
     const { errors, message, loading } = this.state;
 
     return (
