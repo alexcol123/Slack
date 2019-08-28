@@ -6,13 +6,13 @@ body,
   padding: 1em;
 }
 
-/* Messages */
-
+/* Messages.js */
 .messages {
-  height: 440px;
+  height: 62vh;
   overflow-y: scroll;
 }
 
+/* MessageForm.js */
 .message__form {
   position: fixed !important;
   bottom: 1em;
@@ -32,7 +32,7 @@ body,
   padding: 1em;
 }
 
-/* ProgressBar */
+/* ProgressBar.js */
 .progress__bar {
   margin: 0.3em 0 0 0 !important;
 }
