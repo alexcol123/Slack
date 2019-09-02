@@ -1,17 +1,17 @@
-import React from 'react';
-import firebase from '../../firebase';
-import { connect } from 'react-redux';
-import { setCurrentChannel } from '../../actions';
-import { Menu, Icon, Modal, Form, Input, Button } from 'semantic-ui-react';
+import React from "react";
+import firebase from "../../firebase";
+import { connect } from "react-redux";
+import { setCurrentChannel, setPrivateChannel } from "../../actions";
+import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
 
 class Channels extends React.Component {
   state = {
-    activeChannel: '',
+    activeChannel: "",
     user: this.props.currentUser,
     channels: [],
-    channelName: '',
-    channelDetails: '',
-    channelsRef: firebase.database().ref('channels'),
+    channelName: "",
+    channelDetails: "",
+    channelsRef: firebase.database().ref("channels"),
     modal: false,
     firstLoad: true
   };
@@ -20,13 +20,13 @@ class Channels extends React.Component {
     this.addListeners();
   }
 
-  componentWillUount() {
+  componentWillUnmount() {
     this.removeListeners();
   }
 
   addListeners = () => {
     let loadedChannels = [];
-    this.state.channelsRef.on('child_added', snap => {
+    this.state.channelsRef.on("child_added", snap => {
       loadedChannels.push(snap.val());
       this.setState({ channels: loadedChannels }, () => this.setFirstChannel());
     });
@@ -64,9 +64,9 @@ class Channels extends React.Component {
       .child(key)
       .update(newChannel)
       .then(() => {
-        this.setState({ channelName: '', channelDetails: '' });
+        this.setState({ channelName: "", channelDetails: "" });
         this.closeModal();
-        console.log('channel added');
+        console.log("channel added");
       })
       .catch(err => {
         console.error(err);
@@ -87,6 +87,7 @@ class Channels extends React.Component {
   changeChannel = channel => {
     this.setActiveChannel(channel);
     this.props.setCurrentChannel(channel);
+    this.props.setPrivateChannel(false);
   };
 
   setActiveChannel = channel => {
@@ -123,7 +124,7 @@ class Channels extends React.Component {
           <Menu.Item>
             <span>
               <Icon name="exchange" /> CHANNELS
-            </span>{' '}
+            </span>{" "}
             ({channels.length}) <Icon name="add" onClick={this.openModal} />
           </Menu.Item>
           {this.displayChannels(channels)}
@@ -170,5 +171,5 @@ class Channels extends React.Component {
 
 export default connect(
   null,
-  { setCurrentChannel }
+  { setCurrentChannel, setPrivateChannel }
 )(Channels);

@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import { Segment, Comment } from "semantic-ui-react";
 import firebase from "../../firebase";
